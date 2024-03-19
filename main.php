@@ -41,7 +41,7 @@ function main($args) {
     print_r($result);
     echo "</pre>";
 
-    return $result;
+    return ["body" => $result];
 }
 
 /**
