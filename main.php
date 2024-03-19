@@ -1,5 +1,8 @@
 <?php
 
+// Constants
+// returnDatabaseExplorerTokenizedQuery
+define('DATABASE_EXPLORER_TOKENIZED_STRING', 'SELECT TABLE_SCHEMA as `Database`, TABLE_NAME as `Table`, ROUND((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024, 2) AS `Size in MB`FROM information_schema.TABLES WHERE TABLE_SCHEMA = \'{$database_name}\'ORDER BY (DATA_LENGTH + INDEX_LENGTH) DESC;'
 /**
  * MySQL Explorer
  *
