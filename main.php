@@ -12,15 +12,50 @@
  */
 
 /**
- * Main function to handle database exploration tasks.
- *
- * Accepts an associative array of arguments to determine the action and parameters for query building.
- *
- * @param array $args Associative array of arguments for task execution.
- * @return array Result of the query building process including status and query or error message.
+ * Main entry point of the application.
+ * It checks and sanitizes GET variables before passing them to the init method.
  */
-function main(array $args): array {
-    // Extracting variables from the args array with default values where applicable.
+function main($args) {
+    if(empty($args))
+    {
+        $args = [];
+    }
+    
+    // List of expected GET variables. Add more as needed.
+    $expected_vars = ['query_id', 'database_name', 'table_name'];
+
+    foreach ($expected_vars as $var) {
+        if (isset($_GET[$var])) {
+            // Basic sanitization. Consider more specific sanitization based on the expected content.
+            $args[$var] = filter_input(INPUT_GET, $var, FILTER_SANITIZE_STRING);
+        }
+    }
+
+    // Additional security measures could be implemented here.
+
+    // Initialize and pass sanitized arguments.
+    $result = init($args);
+
+    // Output or further process $result as needed.
+    echo "<pre>";
+    print_r($result);
+    echo "</pre>";
+
+    return $result;
+}
+
+/**
+ * Handles the main functionality based on provided arguments.
+ * 
+ * @param array $args Associative array of sanitized arguments.
+ * @return array Result of the operation including status and data.
+ */
+function init(array $args): array {
+    // Implementation of the previous main function goes here.
+    // Extracting and validating variables...
+    // Building and handling the query...
+    // Returning the result...
+
     $query_id = $args['query_id'] ?? null;
     $database_name = $args['database_name'] ?? '';
     $table_name = $args['table_name'] ?? '';
@@ -30,10 +65,10 @@ function main(array $args): array {
         return ["status" => "error", "message" => "Query ID is required"];
     }
 
-    // Build and handle the query based on the extracted arguments.
+    // Build and handle the query based on the sanitized arguments.
     $result = buildQuery($query_id, $database_name, $table_name);
 
-    // Process and return the result as needed.
+    // Return the processed result.
     return $result;
 }
 
